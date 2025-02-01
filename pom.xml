@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 1. 这里去掉了 spring-boot-starter-parent -->
+    <groupId>com.oneself</groupId>
+    <artifactId>oneself-spring-boot-starter</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>  <!-- Starter 是 jar 而不是 pom -->
+    <name>oneself-spring-boot-starter</name>
+    <description>自定义 Spring Boot Starter</description>
+
+    <properties>
+        <java.version>21</java.version>
+        <spring-boot.version>3.3.7</spring-boot.version>  <!-- 指定 Spring Boot 版本 -->
+    </properties>
+
+    <!-- 2. dependencyManagement 用于管理 Spring Boot 依赖 -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- 3. Starter 需要的 Spring 依赖，必须是 optional，避免强制引入 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <optional>true</optional>  <!-- 重要！Starter 依赖通常是可选的 -->
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- 4. 无主类打包方式 -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
